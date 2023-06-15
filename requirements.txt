@@ -1,0 +1,2 @@
+Telethon~=1.28.5
+requests_futures==1.0.0
