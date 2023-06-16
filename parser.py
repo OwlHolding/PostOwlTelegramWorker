@@ -29,7 +29,7 @@ class Parser:
                 message = event.message.message
                 channel = await self.client.get_entity(event.message.peer_id)
                 channel_name = channel.username
-                if channel_name and not ("bot" in channel_name.lower()):
+                if channel_name and not ("bot" in channel_name.lower()) and message:
                     logging.info(f"Parser: Getting post from channel {channel_name}")
                     await handler(channel_name, message)
 

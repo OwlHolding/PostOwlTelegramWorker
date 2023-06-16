@@ -1,9 +1,9 @@
 {
   "telegram_api_id": 29824982,
   "telegram_api_hash": "730bac897bbcf9990a0964669e31b25b",
-  "main_server_url": "localhost:80",
+  "main_server_url": "http://localhost:80/",
   "store_path": "channels",
   "server_host": "localhost",
-  "server_port": 80,
+  "server_port": 8000,
   "max_channel": 500
 }
