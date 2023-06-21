@@ -16,12 +16,14 @@ class Parser:
         self.config = config
         logging.info("TelegramParser: inited")
 
-    def start(self, handler):
+    def start(self, handler, loop):
+        asyncio.set_event_loop(loop)
 
         self.client = TelegramClient(session="session",
                                      api_id=self.config['telegram_api_id'],
                                      api_hash=self.config['telegram_api_hash'],
-                                     system_version="4.16.30-vxCUSTOM")
+                                     system_version="4.16.30-vxCUSTOM",
+                                     loop=loop)
 
         with self.client:
             @self.client.on(events.NewMessage())
@@ -53,7 +55,6 @@ class Parser:
 
             logging.info("Parser: starting listening")
 
-            loop = asyncio.get_event_loop()
             loop.create_task(checker())
 
             self.client.run_until_disconnected()

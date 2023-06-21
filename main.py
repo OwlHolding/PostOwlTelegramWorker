@@ -1,12 +1,14 @@
 import logging
 import json
 import threading
+import uvicorn
+import os
+import asyncio
+from fastapi import FastAPI
 
 import parser
 import client
-import server
 import store
-import os
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s:     %(asctime)s - %(message)s", filename="log.txt",
                     filemode="w")
@@ -22,8 +24,23 @@ channels = store.ChannelsStore(config)
 if os.path.exists('channels'):
     channels.load_store()
 
+logging.info("Modules inited")
 
-def add_handler(channel: str) -> bool:
+app = FastAPI()
+
+
+@app.post("/add-channel/{channel}/")
+def add(channel: str):
+    if channel in channels.list:
+        channels.del_channel(channel)
+        unit.del_channel(channel)
+        return True
+    else:
+        return False
+
+
+@app.post("/del-channel/{channel}/")
+def del_channel(channel: str):
     if not (channel in channels.list):
 
         if len(channels.list) >= config['max_channel']:
@@ -36,21 +53,23 @@ def add_handler(channel: str) -> bool:
         return True
 
 
-def del_handler(channel: str):
-    if channel in channels.list:
-        channels.del_channel(channel)
-        unit.del_channel(channel)
-        return True
-    else:
-        return False
+logging.info("Start threading")
+loop = asyncio.new_event_loop()
 
+parser_thread = threading.Thread(target=unit.start, args=[cli.send_post, loop])
+parser_thread.start()
 
-ser = server.Server(config, add_handler, del_handler)
+logging.info("Parser started")
+logging.info("Server started")
 
-logging.info("Modules inited")
-
-server_thread = threading.Thread(target=ser.start)
-server_thread.start()
-
-unit.start(cli.send_post)
+uvicorn.run(
+    app=app,
+    host=config['server_host'],
+    port=config['server_port']
+)
+try:
+    loop.stop()
+except RuntimeError:
+    pass
 logging.info('Finishing process')
+
