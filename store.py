@@ -6,7 +6,7 @@ class ChannelsStore:
     """Класс для хранения списка используемых каналов"""
 
     def __init__(self, config: dict):
-        self.path = config['store_path']
+        self.path = config['storage']
         basedir = os.path.dirname(self.path)
         if not os.path.exists(basedir) and basedir:
             os.makedirs(basedir)

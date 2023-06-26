@@ -4,7 +4,7 @@ import threading
 import uvicorn
 import os
 import asyncio
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 
 import parser
 import client
@@ -30,27 +30,26 @@ app = FastAPI()
 
 
 @app.post("/add-channel/{channel}/")
-def add(channel: str):
-    if channel in channels.list:
-        channels.del_channel(channel)
-        unit.del_channel(channel)
-        return True
-    else:
-        return False
-
-
-@app.post("/del-channel/{channel}/")
-def del_channel(channel: str):
+def add(channel: str) -> Response:
     if not (channel in channels.list):
-
         if len(channels.list) >= config['max_channel']:
-            return False
+            return Response(status_code=507)
 
         channels.add_channel(channel)
         unit.add_channel(channel)
-        return True
+        return Response(status_code=201)
     else:
-        return True
+        return Response(status_code=208)
+
+
+@app.post("/del-channel/{channel}/")
+def del_channel(channel: str) -> Response:
+    if channel in channels.list:
+        channels.del_channel(channel)
+        unit.del_channel(channel)
+        return Response(status_code=205)
+    else:
+        return Response(status_code=404)
 
 
 logging.info("Start threading")
@@ -64,12 +63,11 @@ logging.info("Server started")
 
 uvicorn.run(
     app=app,
-    host=config['server_host'],
-    port=config['server_port']
+    host=config['host'],
+    port=config['port']
 )
 try:
     loop.stop()
 except RuntimeError:
     pass
 logging.info('Finishing process')
-
