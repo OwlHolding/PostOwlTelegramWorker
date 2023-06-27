@@ -32,7 +32,7 @@ app = FastAPI()
 @app.post("/add-channel/{channel}/")
 def add(channel: str) -> Response:
     if not (channel in channels.list):
-        if len(channels.list) >= config['max_channel']:
+        if len(channels.list) >= config['max_channels']:
             return Response(status_code=507)
 
         channels.add_channel(channel)

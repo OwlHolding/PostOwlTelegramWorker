@@ -5,5 +5,5 @@
   "storage": "channels",
   "host": "localhost",
   "port": 8888,
-  "max_channel": 500
+  "max_channels": 500
 }

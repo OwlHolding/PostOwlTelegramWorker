@@ -2,15 +2,36 @@
 
 ## Running 
 
+После скачивания репозитория, не забудьте выполнить установку зависимостей:
+```shell
+pip3 install -r requirements.txt
+```
+
+Затем нужно создать файл config.json, следующего содержания:
+
+```json
+{
+  "telegram_api_id": "api-id",
+  "telegram_api_hash": "api-hash",
+  "webhook": "webhook-url (смотри ниже)",
+  "storage": "channels", 
+  "host": "your-host",
+  "port": "your-port",
+  "max_channels": "max channels"
+}
+```
+
+Параметр `storage` содержит имя хранилища списка добавленных каналов. Рекомендуется оставить `channels`
+
+Для запуска системы достаточно выполнить команду:
 ```shell
 python main.py
 ```
 При первом запуске необходимо авторизоваться в Telegram, введя телефон и код из сообщения. 
 
 Чтобы получить актуальный список добавленных каналов выполните
-
 ```shell
-cat channels
+cat your_storage_name
 ```
 
 ## Using
