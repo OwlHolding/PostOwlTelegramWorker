@@ -48,7 +48,7 @@ class Parser:
                         channel_name = self.channel_del_queue.get()
 
                         channel_entity = await self.client.get_entity(channel_name)
-                        await self.client(JoinChannelRequest(channel_entity))
+                        await self.client(LeaveChannelRequest(channel_entity))
                         logging.info(f"Parser: leaved channel {channel_name}")
 
                     await asyncio.sleep(1)
