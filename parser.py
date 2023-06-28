@@ -53,8 +53,6 @@ class Parser:
 
                     await asyncio.sleep(1)
 
-            logging.info("Parser: starting listening")
-
             loop.create_task(checker())
 
             self.client.run_until_disconnected()

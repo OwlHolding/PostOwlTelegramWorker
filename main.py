@@ -56,18 +56,20 @@ logging.info("Start threading")
 loop = asyncio.new_event_loop()
 
 parser_thread = threading.Thread(target=unit.start, args=[cli.send_post, loop])
-parser_thread.start()
 
-logging.info("Parser started")
-logging.info("Server started")
+if __name__ == "__main__":
+    parser_thread.start()
 
-uvicorn.run(
-    app=app,
-    host=config['host'],
-    port=config['port']
-)
-try:
-    loop.stop()
-except RuntimeError:
-    pass
-logging.info('Finishing process')
+    logging.info("Parser started")
+    logging.info("Server started")
+
+    uvicorn.run(
+        app=app,
+        host=config['host'],
+        port=config['port']
+    )
+    try:
+        loop.stop()
+    except RuntimeError:
+        pass
+    logging.info('Finishing process')
