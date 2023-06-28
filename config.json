@@ -1,9 +1,0 @@
-{
-  "telegram_api_id": 29824982,
-  "telegram_api_hash": "730bac897bbcf9990a0964669e31b25b",
-  "webhook": "http://localhost:80/posts/",
-  "storage": "channels",
-  "host": "localhost",
-  "port": 8888,
-  "max_channels": 500
-}

@@ -21,7 +21,7 @@ unit = parser.Parser(config)
 cli = client.Client(config)
 channels = store.ChannelsStore(config)
 
-if os.path.exists('channels'):
+if os.path.exists(config['storage']):
     channels.load_store()
 
 logging.info("Modules inited")
